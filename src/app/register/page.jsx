@@ -15,24 +15,30 @@ const Register = () => {
 		e.preventDefault();
 
 		if (username === '' || email === '' || password === '') {
-			toast.error('Fill all fildes');
+			toast.error('Fill all fields');
 			return;
 		}
+
 		if (password.length < 6) {
 			toast.error('Password must be at least 6 characters');
 			return;
 		}
+
 		try {
-			const res = await fetch(`http:localhost:3000/api/register`, {
+			const res = await fetch('http://localhost:3000/api/register', {
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				method: 'POST',
 				body: JSON.stringify({ username, email, password }),
 			});
+
+			console.log(await res.json());
 			if (res.ok) {
 				toast.success('Successfully registered the user');
-				signIn();
+				setTimeout(() => {
+					signIn();
+				}, 1500);
 				return;
 			} else {
 				toast.error('Error occured while registering');
@@ -42,6 +48,7 @@ const Register = () => {
 			console.log(error);
 		}
 	};
+
 	return (
 		<div className={classes.container}>
 			<div className={classes.wrapper}>
